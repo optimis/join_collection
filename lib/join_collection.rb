@@ -45,10 +45,13 @@ class JoinCollection
     self.plural_target   = target.to_s.pluralize.to_sym
 
     relation = options[:relation]
+    delegation = options[:delegation]
+    raise ArgumentError.new('Relation hash not found in options') unless relation.is_a?(Hash)
+    raise ArgumentError.new('Delegation hash not found in options') unless delegation.is_a?(Hash)
+
     fk = relation.keys.first
     pk = relation.values.first
 
-    delegation = options[:delegation]
     if_block = delegation[:if] || lambda { |x| true }
     fields = delegation[:fields] || []
 
@@ -71,7 +74,7 @@ class JoinCollection
         when plural_target
           doc[plural_target] = target_objects if join_type == :join_many
         else
-          doc["#{singular_target}_#{field}"] = target_object.try(field)
+          doc["#{singular_target}_#{field}"] = target_object.send(field)
         end
       end
     end
