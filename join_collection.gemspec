@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["changmason@gmail.com"]
   spec.description   = %q{Joining mongoid docs with specified relation}
   spec.summary       = %q{Joining mongoid docs with specified relation}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/optimis/join_collection"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
