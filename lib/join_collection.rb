@@ -1,6 +1,6 @@
 class JoinCollection
 
-  VERSION = "0.0.1"
+  VERSION = "0.0.2"
 
   attr_reader :source_objects
   attr_accessor :join_type, :singular_target, :plural_target
