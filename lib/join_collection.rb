@@ -2,7 +2,7 @@ require 'mongoid'
 
 class JoinCollection
 
-  VERSION = "0.1.0"
+  VERSION = "0.2.0"
 
   class Doc; include Mongoid::Document; end
 
