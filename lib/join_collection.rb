@@ -1,12 +1,20 @@
+require 'mongoid'
+
 class JoinCollection
 
   VERSION = "0.1.0"
+
+  class Doc; include Mongoid::Document; end
 
   attr_reader :source_objects
   attr_accessor :join_type, :singular_target, :plural_target
 
   def initialize(collection)
-    @source_objects = collection
+    if collection.first.is_a?(Hash)
+      @source_objects = collection.map {|x| Doc.new(x)}
+    else
+      @source_objects = collection
+    end
   end
 
   def join_to(target, target_class, options)

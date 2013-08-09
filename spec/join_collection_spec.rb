@@ -113,4 +113,36 @@ describe JoinCollection do
       expect(@user_collection.source_objects.first.post_published).to be_false
     end
   end
+
+  context 'source objects are hash objects' do
+    it 'can still join to target object' do
+      user = User.new(:mysql_id => 1, :name => 'Bob')
+      User.stub(:where).and_return([user])
+
+      post = {:mysql_id => 1, :user_id => 1, :content => 'text 1', :published => true}
+      post_collection = JoinCollection.new([post])
+      post_collection.join_to(:user, User, :relation => {:user_id => :mysql_id}, :delegation => {:fields => [:user]})
+      expect(post_collection.source_objects.first.user).to eq(user)
+    end
+
+    it 'can still join one target object' do
+      post = Post.new(:mysql_id => 1, :user_id => 1, :content => 'text 1', :published => true)
+      Post.stub(:where).and_return([post])
+
+      user = {:mysql_id => 1, :name => 'Bob'}
+      user_collection = JoinCollection.new([user])
+      user_collection.join_one(:post, Post, :relation => {:user_id => :mysql_id}, :delegation => {:fields => [:post]})
+      expect(user_collection.source_objects.first.post).to eq(post)
+    end
+
+    it 'can still join many target objects' do
+      post = Post.new(:mysql_id => 1, :user_id => 1, :content => 'text 1', :published => true)
+      Post.stub(:where).and_return([post])
+
+      user = {:mysql_id => 1, :name => 'Bob'}
+      user_collection = JoinCollection.new([user])
+      user_collection.join_many(:post, Post, :relation => {:user_id => :mysql_id}, :delegation => {:fields => [:posts]})
+      expect(user_collection.source_objects.first.posts).to eq([post])
+    end
+  end
 end
