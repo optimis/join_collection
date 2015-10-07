@@ -1,8 +1,15 @@
 require 'spec_helper'
+require 'pry'
 
 
-class User; include Mongoid::Document; end
-class Post; include Mongoid::Document; end
+class User
+  include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
+end
+class Post
+  include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
+end
 
 describe JoinCollection do
   let!(:user1) { User.new :mysql_id => 1, :name => 'Bob' }

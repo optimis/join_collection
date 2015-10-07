@@ -4,7 +4,11 @@ class JoinCollection
 
   VERSION = "0.2.0"
 
-  class Doc; include Mongoid::Document; end
+  class Doc 
+    include Mongoid::Document
+    include Mongoid::Attributes::Dynamic
+  end
+
 
   attr_reader :source_objects
   attr_accessor :join_type, :singular_target, :plural_target
