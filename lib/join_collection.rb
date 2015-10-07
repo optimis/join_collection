@@ -4,7 +4,11 @@ class JoinCollection
 
   VERSION = "0.2.0"
 
-  class Doc; include Mongoid::Document; end
+  class Doc 
+    include Mongoid::Document
+    include Mongoid::Attributes::Dynamic
+  end
+
 
   attr_reader :source_objects
   attr_accessor :join_type, :singular_target, :plural_target
@@ -82,7 +86,7 @@ class JoinCollection
         when plural_target
           doc[plural_target] = target_objects if join_type == :join_many
         else
-          doc["#{singular_target}_#{field}"] = target_object.try(field)
+          doc["#{singular_target}_#{field}"] = target_object.try!(field)
         end
       end
     end
