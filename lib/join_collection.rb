@@ -1,4 +1,5 @@
 require 'mongoid'
+require 'pry'
 
 class JoinCollection
 
@@ -86,7 +87,7 @@ class JoinCollection
         when plural_target
           doc[plural_target] = target_objects if join_type == :join_many
         else
-          doc["#{singular_target}_#{field}"] = target_object.try(field)
+          doc["#{singular_target}_#{field}"] = target_object.try!(field)
         end
       end
     end

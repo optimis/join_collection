@@ -109,7 +109,7 @@ describe JoinCollection do
       @user_collection.join_many(:post, Post,
         :relation => {:user_id => :mysql_id}, :delegation => {:fields => [:content, :published]})
       expect(@user_collection.source_objects.first.post_content).to eq('text 2')
-      expect(@user_collection.source_objects.first.post_published).to be_true
+      expect(@user_collection.source_objects.first.post_published).to be_truthy
     end
 
     it 'should have correct values in delegation fields if a conditional block given' do
@@ -117,7 +117,7 @@ describe JoinCollection do
         :relation => {:user_id => :mysql_id},
         :delegation => {:if => lambda { |x| x.published == false }, :fields => [:content, :published]})
       expect(@user_collection.source_objects.first.post_content).to eq('text 3')
-      expect(@user_collection.source_objects.first.post_published).to be_false
+      expect(@user_collection.source_objects.first.post_published).to be_falsey
     end
   end
 
