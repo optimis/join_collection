@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'pry'
-
 
 class User
   include Mongoid::Document

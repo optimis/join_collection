@@ -1,5 +1,4 @@
 require 'mongoid'
-require 'pry'
 
 class JoinCollection
 
