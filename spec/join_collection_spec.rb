@@ -38,11 +38,11 @@ describe JoinCollection do
   describe '#join_to' do
     before do
       @post_collection = JoinCollection.new([post1])
-      User.stub(:where).and_return([user1])
+      allow(User).to receive(:where).and_return([user1])
     end
 
     it 'should call User.where' do
-      User.should_receive(:where).with(:mysql_id.in => [1]).and_return([user1])
+      expect(User).to receive(:where).with(:mysql_id.in => [1]).and_return([user1])
       @post_collection.join_to(:user, User, :relation => {:user_id => :mysql_id}, :delegation => {:fields => [:mysql_id]})
     end
 
@@ -67,11 +67,11 @@ describe JoinCollection do
   describe '#join_one' do
     before do
       @user_collection = JoinCollection.new([user1])
-      Post.stub(:where).and_return([post1])
+      allow(Post).to receive(:where).and_return([post1])
     end
 
     it 'should call Post.where' do
-      Post.should_receive(:where).with(:user_id.in => [1]).and_return([post1])
+      expect(Post).to receive(:where).with(:user_id.in => [1]).and_return([post1])
       @user_collection.join_one(:post, Post, :relation => {:user_id => :mysql_id}, :delegation => {:fields => [:mysql_id]})
     end
 
@@ -96,7 +96,7 @@ describe JoinCollection do
   describe '#join_many' do
     before do
       @user_collection = JoinCollection.new([user2])
-      Post.stub(:where).and_return([post2, post3])
+      allow(Post).to receive(:where).and_return([post2, post3])
     end
 
     it 'should catch the whole target objects if the delegation field name equals to the plural target name' do
@@ -124,7 +124,7 @@ describe JoinCollection do
   context 'source objects are hash objects' do
     it 'can still join to target object' do
       user = User.new(:mysql_id => 1, :name => 'Bob')
-      User.stub(:where).and_return([user])
+      allow(User).to receive(:where).and_return([user])
 
       post = {:mysql_id => 1, :user_id => 1, :content => 'text 1', :published => true}
       post_collection = JoinCollection.new([post])
@@ -134,7 +134,7 @@ describe JoinCollection do
 
     it 'can still join one target object' do
       post = Post.new(:mysql_id => 1, :user_id => 1, :content => 'text 1', :published => true)
-      Post.stub(:where).and_return([post])
+      allow(Post).to receive(:where).and_return([post])
 
       user = {:mysql_id => 1, :name => 'Bob'}
       user_collection = JoinCollection.new([user])
@@ -144,7 +144,7 @@ describe JoinCollection do
 
     it 'can still join many target objects' do
       post = Post.new(:mysql_id => 1, :user_id => 1, :content => 'text 1', :published => true)
-      Post.stub(:where).and_return([post])
+      allow(Post).to receive(:where).and_return([post])
 
       user = {:mysql_id => 1, :name => 'Bob'}
       user_collection = JoinCollection.new([user])
